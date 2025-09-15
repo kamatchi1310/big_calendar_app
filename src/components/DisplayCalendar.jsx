@@ -24,11 +24,13 @@ const DisplayCalendar = () => {
     const date = listOfData.find(
       (e) => e.start.toDateString() === slotInfo.start.toDateString()
     );
-    setPopupOpen(true);
+
     if (date) {
       dispatch(setSelectedDate(date));
+      setPopupOpen(true);
     } else {
-      dispatch(setSelectedDate(null));
+      setPopupOpen(false);
+      alert("No data found for the selected date.");
     }
   };
 
