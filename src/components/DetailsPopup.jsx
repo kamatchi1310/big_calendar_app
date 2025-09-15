@@ -28,7 +28,7 @@ const DetailsPopup = ({ details, onClose }) => {
       {
         label: details.title,
         data: values,
-        backgroundColor: "#add8e6",
+        backgroundColor: "#5dbb94",
       },
     ],
   };

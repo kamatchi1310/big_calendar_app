@@ -15,11 +15,6 @@ const DisplayCalendar = () => {
   const dispatch = useDispatch();
   const [popupOpen, setPopupOpen] = useState(false);
 
-  const handleSelectDate = (date) => {
-    dispatch(setSelectedDate(date));
-    setPopupOpen(true);
-  };
-
   const handleSelectSlot = (slotInfo) => {
     const date = listOfData.find(
       (e) => e.start.toDateString() === slotInfo.start.toDateString()
@@ -37,7 +32,7 @@ const DisplayCalendar = () => {
   const eventStyleGetter = (data) => {
     const style = {
       backgroundColor:
-        selectedDate && selectedDate.id === data.id ? "#3174ad" : "#f56c6c",
+        selectedDate && selectedDate.id === data.id ? "#5dbb94" : "#ffae94",
       borderRadius: "5px",
       opacity: 0.9,
       color: "white",
@@ -45,6 +40,28 @@ const DisplayCalendar = () => {
       display: "block",
     };
     return { style };
+  };
+
+  const dayPropGetter = (date) => {
+    const formatted = moment(date).format("DD-MM-YYYY");
+    const SelectedDateInFormat = selectedDate
+      ? moment(selectedDate.start).format("DD-MM-YYYY")
+      : null;
+    if (formatted === SelectedDateInFormat) {
+      return {
+        style: {
+          backgroundColor: "#D0F0C0",
+          border: "1px solid #4F7942",
+          borderRadius: "6px",
+        },
+      };
+    }
+    return {};
+  };
+
+  const onClose = () => {
+    setPopupOpen(false);
+    dispatch(setSelectedDate(null));
   };
 
   return (
@@ -56,9 +73,11 @@ const DisplayCalendar = () => {
         endAccessor="end"
         selectable
         style={{ height: 500, margin: "50px" }}
-        // onSelectEvent={handleSelectDate}
         onSelectSlot={handleSelectSlot}
         eventPropGetter={eventStyleGetter}
+        dayPropGetter={dayPropGetter}
+        onNavigate={onClose}
+        onView={onClose}
       />
 
       {popupOpen && selectedDate && (
